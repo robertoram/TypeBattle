@@ -11,8 +11,9 @@ score = 0
 id = 0
 missed_words_allowed = 3
 missed_words_count = 0
-words_onscreen_count = 3
-
+words_onscreen_count = 1
+word_spawn_delay = 120 #Ticks
+clock_tick_count = 0
 
 # Configuración de la ventana
 window_width = 800
@@ -29,27 +30,33 @@ black = (0, 0, 0)
 Red = (255, 0, 0)
 
 # Función para generar una posición aleatoria que no esté en colisión con las palabras existentes
-def generate_random_position(words):
+def generate_random_position(text):
     while True:
+
+        word_surface  = font.render(text, True, white)
+        word_rect = word_surface.get_rect()
+    
         # Generar una posición aleatoria
-        x = random.randint(100, window_width - 100)
-        y = random.randint(-500, 0)
-        rect = pygame.Rect(x, y, 100, 100)
+        x = random.randint(10, window_width-word_rect.width - 10)
+        y = -30
+        
+       
+        #rect = pygame.Rect(x, y, 150, 30)
         
         # Comprobar si hay colisión con alguna palabra existente
-        collision = False
-        word_count = words_onscreen_count if len(words) >= words_onscreen_count else len(words)
-        for w in range(word_count):
-            wordcollission = words[w]
-            #for wordcollission in words:
-            if wordcollission["rect"] != None:
-                if rect.colliderect(wordcollission["rect"]):
-                    collision = True
-                    break
+        # collision = False
+        # word_count = words_onscreen_count #if len(words) >= words_onscreen_count else len(words)
+        # for w in range(word_count):
+        #     wordcollission = words[w]
+        #     #for wordcollission in words:
+        #     if wordcollission["rect"] != None:
+        #         if rect.colliderect(wordcollission["rect"]):
+        #             collision = True
+        #             break
         
-        # Si no hay colisión, devolver la posición
-        if not collision:
-            return x, y
+        # # Si no hay colisión, devolver la posición
+        # if not collision:
+        return x, y
 
 # Lista de palabras
 #word_list = ['opalo', 'original', 'orange', 'kiwi', 'watermelon', 'mango', 'pear', 'pineapple']
@@ -73,16 +80,17 @@ clock = pygame.time.Clock()
 # Función para dibujar la pantalla
 def draw_screen():
     window.fill(black)
-    word_count = words_onscreen_count if len(words) >= words_onscreen_count else len(words)
+
+    word_count = words_onscreen_count #if len(words) >= words_onscreen_count else len(words)
     for w in range(word_count):
         if words[w]["rect"] == None:
-            pos = generate_random_position(words)
+            pos = generate_random_position(words[w]["text"])
             word_surface  = font.render(words[w]["text"], True, white)
             word_rect = word_surface.get_rect()
             word_rect.topleft = (pos[0], pos[1])
             words[w]["x"] = pos[0]
             words[w]["y"] = pos[1]
-            words[w]["surgace"] = word_surface
+            words[w]["surface"] = word_surface
             words[w]["rect"] = word_rect
         word =  words[w]
         text = font.render(word["text"], True, white if word["atacked"] == 0 else Red)
@@ -98,15 +106,24 @@ while True:
             pygame.quit()
             quit()
 
+    if clock_tick_count == word_spawn_delay and words_onscreen_count <= len(words):
+        words_onscreen_count += 1
+        clock_tick_count = 0
+
     # Dibujar la pantalla
     draw_screen()
     
     # Mover las palabras hacia abajo
     #for word in words:
-    word_count = words_onscreen_count if len(words) >= words_onscreen_count else len(words)
-    for w in range(word_count):
+    word_count = words_onscreen_count # if len(words) >= words_onscreen_count else len(words)
+    for w in range(word_count-1):
         word = words[w]
         word["y"] += 1
+        if (word["x"]) < (window_width / 2) - (word["rect"].width /2):
+            word["x"] += 0.3  
+        else:
+            word["x"] -= 0.3  
+
         if word["y"] == window_width-200:
             missed_words_count += 1
             attacked_word_id = 0
@@ -149,7 +166,8 @@ while True:
     textMissed = font.render('Missed: ' + missed_words_count.__str__(), True, white)
     window.blit(textMissed, (1, 30))
         
-
+    # Actualizar el conteo de Ticks
+    clock_tick_count += 1
     # Actualizar la pantalla
     pygame.display.update()
 
