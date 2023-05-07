@@ -16,7 +16,7 @@ class GameOverScene:
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 return TITLE_EVENT
 
-    def update(self):
+    def update(self,delta_time):
         pass
 
     def render(self, screen):

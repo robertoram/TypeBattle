@@ -19,8 +19,13 @@ game_over_scene = GameOverScene(screen)
 # Configuración de la escena actual
 current_scene = menu_scene
 
+# Configuración del Reloj primcipal
+clock = pygame.time.Clock()
+
 # Bucle principal del juego
 while True:
+    
+
     # Manejo de eventos de Pygame
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -36,9 +41,10 @@ while True:
             # Handle title event
             pass
 
+    delta_time = clock.tick(FPS) / 1000.0
 
     # Actualización de la escena actual
-    current_scene.update()
+    current_scene.update(delta_time)
 
     # Cambio de escena si es necesario
     if current_scene.done:

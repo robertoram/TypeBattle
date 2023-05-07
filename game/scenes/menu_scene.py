@@ -26,7 +26,7 @@ class MenuScene:
         self.done = False
 
 
-    def update(self):
+    def update(self,delta_time):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_SPACE]:
