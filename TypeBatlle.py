@@ -6,18 +6,26 @@ pygame.init()
 
 # Variables
 global attacked_word_id
+global words_onscreen_count
+global clock_tick_count
+global score 
+
+
+
 attacked_word_id = 0
 attacked_word = None
-global score 
+
 score = 0
 id = 0
 missed_words_allowed = 3
 missed_words_count = 0
-global words_onscreen_count
+
 words_onscreen_count = 1
 word_spawn_delay = 120 #Ticks
-global clock_tick_count
+
 clock_tick_count = 0
+is_quote_pressed = False
+accent_key = 0
 
 # Configuración de la ventana
 window_width = 800
@@ -36,6 +44,22 @@ fondo = pygame.transform.scale(pygame.image.load("resources/images/background.jp
 white = (255, 255, 255)
 black = (0, 0, 0)
 Red = (255, 0, 0)
+
+
+
+# Lista de modificadores de letras
+accent_keys_mapping = {
+    pygame.K_e: {"char": "é", "mod": pygame.K_QUOTE},
+    pygame.K_u: {"char": "ú", "mod": pygame.K_QUOTE},
+    pygame.K_i: {"char": "í", "mod": pygame.K_QUOTE},
+    pygame.K_o: {"char": "ó", "mod": pygame.K_QUOTE},
+    pygame.K_a: {"char": "á", "mod": pygame.K_QUOTE},
+}
+
+# Lista de letras con acento
+accent_keys = {}
+accent_keys.update(accent_keys_mapping)
+
 
 # Lista de palabras
 #word_list = ['opalo', 'original', 'orange', 'oiwi', 'oatermelon', 'oango', 'oear', 'oineapple']
@@ -128,7 +152,27 @@ while True:
             pygame.quit()
             quit()
         if event.type == pygame.KEYDOWN:
-            key_pressed_check(event.key)
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                quit()
+            elif event.mod & pygame.KMOD_CTRL and event.key == pygame.K_c:
+                pygame.quit()
+                quit()
+            else:
+                # Verificar si se presionó una tecla con acento
+                if (event.mod & pygame.KMOD_ALT and event.key == pygame.K_e) or event.key == pygame.K_QUOTE:
+                    # Marcar la variable Global de acento como true
+                    is_quote_pressed = True
+                # Verificar si se presionó una tecla normal
+                elif event.unicode.isalpha():
+                    # Enviar la tecla a la función key_pressed_check
+                    if is_quote_pressed and event.key in accent_keys:
+                        accent_key = accent_keys[event.key]
+                        key_pressed_check(ord(accent_key["char"]))
+                        is_quote_pressed = False
+                    else:
+                        key_pressed_check(ord(event.unicode))
+
     
     # Dibujar la pantalla
     draw_screen()
