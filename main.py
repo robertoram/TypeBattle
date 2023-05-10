@@ -41,17 +41,14 @@ while True:
             # Handle title event
             pass
 
-    delta_time = clock.tick(FPS) / 1000.0
-
-    # Actualización de la escena actual
-    current_scene.update(delta_time)
-
     # Cambio de escena si es necesario
     if current_scene.done:
         if current_scene.next_scene == "game":
             current_scene = game_scene
         elif current_scene.next_scene == "game_over":
             current_scene = game_over_scene
+        elif current_scene.next_scene == "menu_scene":
+            current_scene = menu_scene
         else:
             break
 
@@ -60,6 +57,15 @@ while True:
 
     # Actualización de la pantalla
     pygame.display.update()
+
+    # Incrementar la velocidad de las palabras
+    LETTER_SPEED += LETTER_SPEED_INGREMENT
+
+    # Configuración del reloj
+    delta_time = clock.tick(FPS) / 1000.0
+
+    # Actualización de la escena actual
+    current_scene.update(delta_time)
 
 # Cierre de Pygame
 pygame.quit()

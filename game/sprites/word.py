@@ -1,4 +1,5 @@
 import pygame
+import random
 from game.config import *
 
 class Word(pygame.sprite.Sprite):
@@ -10,9 +11,10 @@ class Word(pygame.sprite.Sprite):
         self.y = word_data["y"]
         self.speed = word_data["speed"] if "speed" in word_data else LETTER_SPEED
         self.attacked = word_data["attacked"] if "attacked" in word_data else 0
-        self.font = pygame.font.Font(None, 40)
+        self.font = pygame.font.Font(FONT_NAME, 30)
         self.image = self.font.render(self.text, True, WHITE)
-        self.rect = self.image.get_rect(center=(self.x, self.y))
+        self.rect = self.image.get_rect() #center=(self.x, self.y)
+        self.x = random.randint(10, WIDTH -  (self.rect.width / 2) - 10) + (self.rect.width / 2)
 
     def update(self, delta_time):
         self.y += self.speed * delta_time
