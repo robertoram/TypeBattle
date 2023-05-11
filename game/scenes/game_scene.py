@@ -23,8 +23,9 @@ class GameScene:
         self.game_over = False
         self.done = False
         self.next_scene = None
-        bg_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'images', 'menu_bg.jpg')
-        self.background = pygame.transform.scale(pygame.image.load(bg_path), (WIDTH, HEIGHT))
+        
+        self.background = pygame.transform.scale(pygame.image.load(BG_PATH), (WIDTH, HEIGHT))
+        pygame.mixer.music.load(SOUND_SUCCESS)
 
     def new_word(self):
         self.word_list = WORD_LIST
@@ -60,6 +61,7 @@ class GameScene:
                                     self.word_sprites.remove(word)
                                     self.attacked_word_id = 0
                                     self.score += SCORE_INCREMENT
+                                    pygame.mixer.music.play()
                                     self.new_word()
                                     break
 
@@ -72,6 +74,8 @@ class GameScene:
             self.next_word_time = current_time + NEW_WORD_DELAY
         for word in self.word_sprites:
             word.update(delta_time)
+            if word.projectile:
+                word.projectile.draw(self.screen)
             if word.rect.y >= HEIGHT:
                 self.attacked_word_id = 0
                 self.word_sprites.remove(word)
@@ -94,6 +98,7 @@ class GameScene:
         self.draw_text("Score: " + str(self.score), 28, WHITE, 10, 10)
         self.draw_text("Missed: " + str(self.missed), 28, WHITE, 10, 35)
         self.word_sprites.draw(self.screen)
+            
         pygame.display.flip()
 
     def draw_text(self, text, size, color, x, y):

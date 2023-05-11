@@ -39,6 +39,7 @@ while True:
             quit()
         elif event.type == TITLE_EVENT:
             # Handle title event
+            
             pass
 
     # Cambio de escena si es necesario

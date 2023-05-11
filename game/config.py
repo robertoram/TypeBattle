@@ -1,4 +1,5 @@
 import pygame
+import os
 
 # Screen settings
 WIDTH = 800
@@ -9,7 +10,7 @@ FPS = 60
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
-
+GREEN = (0,255,0)
 # Fonts
 FONT_NAME = pygame.font.match_font('monospace')
 
@@ -21,12 +22,19 @@ LETTER_SPEED_INGREMENT = 1
 NEW_WORD_DELAY = 3000
 WORD_ATTACK_DELAY = 250
 SCORE_INCREMENT = 10
+PROJECTILE_SPEED = 100
 
 # Game events
 QUIT_EVENT = pygame.USEREVENT + 1
 TITLE_EVENT = pygame.USEREVENT + 2
 
 # Fonts
-FONT_TYPE = "Arial"
+FONT_TYPE = "monospace"
 FONT_SIZE = 32
 
+#SOUNDS
+
+SOUND_SUCCESS = os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'success_bell.mp3')
+
+#IMAGES
+BG_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'images', 'menu_bg.jpg')
