@@ -16,8 +16,8 @@ class Word(pygame.sprite.Sprite):
         self.font = pygame.font.Font(FONT_NAME, 30)
         self.image = self.font.render(self.text, True, WHITE)
         self.rect = self.image.get_rect() #center=(self.x, self.y)
-        self.x = random.randint(10+(self.rect.width / 2), WIDTH -  (self.rect.width / 2) - 10)#- (self.rect.width / 2) 
-       
+        self.x = random.randint(10+int(self.rect.width / 2), WIDTH -  int(self.rect.width / 2) - 10)#- (self.rect.width / 2) 
+      
         self.projectile = None
         
 

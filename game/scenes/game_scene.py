@@ -4,6 +4,7 @@ import os
 from game.config import *
 from game.utils import *
 from game.sprites.word import *
+from game.utils.scores import Scores
 
 
 class GameScene:
@@ -23,6 +24,9 @@ class GameScene:
         self.game_over = False
         self.done = False
         self.next_scene = None
+        self.total_pressed_letters = 0
+        self.correct_pressed_letters = 0
+        self.scores = None
         
         self.background = pygame.transform.scale(pygame.image.load(BG_PATH), (WIDTH, HEIGHT))
         pygame.mixer.music.load(SOUND_SUCCESS)
@@ -43,12 +47,14 @@ class GameScene:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.next_scene = 'menu_scene'
-                    self.word_sprites
+                    #self.word_sprites.remove(any)
                     self.done = True
                 if event.unicode.isalpha():
+                    self.total_pressed_letters += 1;
                     key = event.unicode.lower()
                     if event.mod & pygame.KMOD_SHIFT:
                         key = event.unicode.upper()
+                    
                     for word in self.word_sprites:
                         if ((self.attacked_word_id > 0 and word.id == self.attacked_word_id) or self.attacked_word_id == 0) and len(word.text) > 0:
                             if key == word.text[0]:
@@ -56,6 +62,7 @@ class GameScene:
                                     word.text = word.text[1:]
                                     self.attacked_word_id = word.id
                                     word.attack()
+                                    self.correct_pressed_letters += 1
                                    
                                 if  len(word.text) == 0:
                                     self.word_sprites.remove(word)
@@ -64,14 +71,22 @@ class GameScene:
                                     pygame.mixer.music.play()
                                     self.new_word()
                                     break
+                            
 
     def update(self,delta_time):
         self.process_input()
         current_time = pygame.time.get_ticks()
-       
+
+        if len(self.word_sprites) == 0 and (self.total_pressed_letters > 0 or self.missed > 0):
+                self.scores = Scores({"score": self.score, "pressed_letters": self.total_pressed_letters , "correct_letters": self.correct_pressed_letters})
+                self.game_over = True
+                self.next_scene = 'game_over'
+                self.done = 1
+
         if current_time > self.next_word_time:
             self.new_word()
             self.next_word_time = current_time + NEW_WORD_DELAY
+            
         for word in self.word_sprites:
             word.update(delta_time)
             if word.projectile:
@@ -90,8 +105,8 @@ class GameScene:
                     self.attacked_word_id = 0
                     self.new_word()
                     break
-        if len(self.word_sprites) == 0:
-            self.game_over = True
+        
+            
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))

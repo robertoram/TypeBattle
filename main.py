@@ -14,7 +14,7 @@ pygame.display.set_caption(TITLE)
 # Creación de las escenas
 menu_scene = MenuScene(screen)
 game_scene = GameScene(screen)
-game_over_scene = GameOverScene(screen)
+sgame_over_scene = None
 
 # Configuración de la escena actual
 current_scene = menu_scene
@@ -47,11 +47,13 @@ while True:
         if current_scene.next_scene == "game":
             current_scene = game_scene
         elif current_scene.next_scene == "game_over":
+            game_over_scene = GameOverScene(screen,current_scene.scores)
             current_scene = game_over_scene
         elif current_scene.next_scene == "menu_scene":
             current_scene = menu_scene
         else:
             break
+        current_scene.done = False
 
     # Dibujado de la escena actual
     current_scene.draw()

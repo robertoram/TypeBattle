@@ -13,11 +13,15 @@ class MenuScene:
 
         self.title_font = pygame.font.Font(FONT_NAME, 64)
         self.title_text = self.title_font.render("TypeBattle", True, WHITE)
-        self.title_rect = self.title_text.get_rect(center=(WIDTH/2, HEIGHT/3))
+        self.title_rect = self.title_text.get_rect(center=(WIDTH/2, HEIGHT/5))
 
         self.start_font = pygame.font.Font(FONT_NAME, 32)
-        self.start_text = self.start_font.render("Press SPACE to start", True, WHITE)
-        self.start_rect = self.start_text.get_rect(center=(WIDTH/2, HEIGHT/2))
+        self.start_text = self.start_font.render("Press SPACE to start/continue", True, WHITE)
+        self.start_rect = self.start_text.get_rect(center=(WIDTH/2, HEIGHT/3))
+
+        self.restart_font = pygame.font.Font(FONT_NAME, 32)
+        self.restart_text = self.restart_font.render("Press R to restart", True, WHITE)
+        self.restart_rect = self.restart_text.get_rect(center=(WIDTH/2, HEIGHT/2))
 
         self.quit_font = pygame.font.Font(FONT_NAME, 32)
         self.quit_text = self.quit_font.render("Press Q to quit", True, WHITE)
@@ -40,4 +44,5 @@ class MenuScene:
         self.screen.blit(self.background, (0, 0))
         self.screen.blit(self.title_text, self.title_rect)
         self.screen.blit(self.start_text, self.start_rect)
+        self.screen.blit(self.restart_text, self.restart_rect)
         self.screen.blit(self.quit_text, self.quit_rect)
