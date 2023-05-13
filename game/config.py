@@ -34,7 +34,7 @@ FONT_SIZE = 32
 
 #SOUNDS
 
-SOUND_SUCCESS = os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'success_bell.mp3')
+SOUND_SUCCESS_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'success_bell.wav')
 
 #IMAGES
 BG_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'images', 'menu_bg.jpg')

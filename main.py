@@ -7,6 +7,10 @@ from game.scenes.game_over_scene import GameOverScene
 # Inicialización de Pygame
 pygame.init()
 
+# Inicialización del Mixer
+pygame.mixer.init()
+
+
 # Configuración de la ventana del juego
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption(TITLE)

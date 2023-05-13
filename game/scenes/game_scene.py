@@ -28,7 +28,9 @@ class GameScene:
         self.scores = None
         
         self.background = pygame.transform.scale(pygame.image.load(BG_PATH), (WIDTH, HEIGHT))
-        pygame.mixer.music.load(SOUND_SUCCESS)
+        self.sucess_sound = pygame.mixer.Sound(SOUND_SUCCESS_PATH)
+      
+       
 
     def new_word(self):
         self.word_list = WORD_LIST
@@ -67,7 +69,7 @@ class GameScene:
                                     self.word_sprites.remove(word)
                                     self.attacked_word_id = 0
                                     self.score += SCORE_INCREMENT
-                                    pygame.mixer.music.play()
+                                    pygame.mixer.Sound.play(self.sucess_sound)
                                     self.new_word()
                                     break
                             
