@@ -13,7 +13,6 @@ class GameScene:
         self.clock = pygame.time.Clock()
         self.all_sprites = pygame.sprite.Group()
         self.word_sprites = pygame.sprite.Group()
-        print(WORD_LIST)
         self.word_list = WORD_LIST
         self.next_word_time = pygame.time.get_ticks() + NEW_WORD_DELAY
         self.attacked_word_time = 0
