@@ -14,16 +14,17 @@ class GameOverScene:
         self.done = False
         self.next_scene = None
 
-    def process_input(self, events, pressed_keys):
-        for event in events:
+    def process_input(self):
+        for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return QUIT_EVENT
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                self.next_scene = 'menu_scene'
-                self.done = True
+                self.game_over = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.next_scene = 'menu_scene'
+                    self.done = True
 
     def update(self,delta_time):
-        pass
+        self.process_input()
 
     def draw(self):
         self.screen.fill(BLACK)

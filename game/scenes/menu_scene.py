@@ -29,16 +29,23 @@ class MenuScene:
 
         self.done = False
 
+    def process_input(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.game_over = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.next_scene = 'game'
+                    self.done = True
+                if event.key == pygame.K_r:
+                    self.next_scene = 'game_reset'
+                    self.done = True
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
 
     def update(self,delta_time):
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_SPACE]:
-            self.done = True
-            self.next_scene = "game"
-        elif keys[pygame.K_q]:
-            pygame.quit()
-            quit()
+       self.process_input()
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))

@@ -48,16 +48,22 @@ while True:
 
     # Cambio de escena si es necesario
     if current_scene.done:
+        current_scene.done = False
         if current_scene.next_scene == "game":
+            current_scene = game_scene
+        elif current_scene.next_scene == "game_reset":
+            game_scene.reset_scene()
             current_scene = game_scene
         elif current_scene.next_scene == "game_over":
             game_over_scene = GameOverScene(screen,current_scene.scores)
             current_scene = game_over_scene
+            game_scene.reset_scene()
         elif current_scene.next_scene == "menu_scene":
+            menu_scene.done = False
             current_scene = menu_scene
         else:
             break
-        current_scene.done = False
+      
 
     # Dibujado de la escena actual
     current_scene.draw()

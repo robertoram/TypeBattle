@@ -22,7 +22,7 @@ class GameScene:
         self.font = pygame.font.Font(FONT_NAME, 28)
         self.game_over = False
         self.done = False
-        self.next_scene = None
+        self.word_list = WORD_LIST.copy()
         self.total_pressed_letters = 0
         self.correct_pressed_letters = 0
         self.scores = None
@@ -33,7 +33,7 @@ class GameScene:
        
 
     def new_word(self):
-        self.word_list = WORD_LIST
+       
         if len(self.word_list) > 0:
             word_text = random.choice(self.word_list)
             word = {"id": pygame.time.get_ticks(), "text": word_text, "x": random.randint(50, WIDTH - 50), "y": 0,
@@ -51,7 +51,7 @@ class GameScene:
                     #self.word_sprites.remove(any)
                     self.done = True
                 if event.unicode.isalpha():
-                    self.total_pressed_letters += 1;
+                    self.total_pressed_letters += 1
                     key = event.unicode.lower()
                     if event.mod & pygame.KMOD_SHIFT:
                         key = event.unicode.upper()
@@ -72,7 +72,19 @@ class GameScene:
                                     pygame.mixer.Sound.play(self.sucess_sound)
                                     self.new_word()
                                     break
-                            
+    def reset_scene(self):
+        self.score = 0
+        self.missed = 0
+        self.total_pressed_letters = 0
+        self.correct_pressed_letters = 0
+        self.scores = None
+        self.done = False
+        self.attacked_word_id = 0
+        self.word_list = WORD_LIST.copy()
+        self.word_sprites = pygame.sprite.Group()
+
+
+
 
     def update(self,delta_time):
         self.process_input()
@@ -80,7 +92,7 @@ class GameScene:
 
         if len(self.word_sprites) == 0 and (self.total_pressed_letters > 0 or self.missed > 0):
                 self.scores = Scores({"score": self.score, "pressed_letters": self.total_pressed_letters , "correct_letters": self.correct_pressed_letters})
-                self.game_over = True
+               
                 self.next_scene = 'game_over'
                 self.done = 1
 
