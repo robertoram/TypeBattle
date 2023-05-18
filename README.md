@@ -26,7 +26,7 @@ Para empezar a jugar Type Attack, sigue estos pasos:
 ## Créditos
 
 - Este juego fue creado por Roberto David Ramírez.
-- Inspirado en https://ztype.pe/
+- Inspirado en https://zty.pe/
 
 ## Licencia
 
