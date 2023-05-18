@@ -45,3 +45,12 @@ def draw_text(surface: pygame.Surface, text: str, font: pygame.font.Font, color:
         text_rect.right = x
     text_rect.y = y
     surface.blit(text_surface, text_rect)
+
+def convert_time(time_seconds):
+    horas = time_seconds // 3600
+    minutos = (time_seconds % 3600) // 60
+    segundos = time_seconds % 60
+    
+    tiempo_formateado = "{:02d}:{:02d}:{:02d}".format(horas, minutos, segundos)
+    
+    return tiempo_formateado

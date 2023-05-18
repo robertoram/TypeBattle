@@ -7,6 +7,7 @@ from game.sprites.word import *
 from game.utils.scores import Scores
 
 
+
 class GameScene:
     def __init__(self, screen):
         self.screen = screen
@@ -26,15 +27,18 @@ class GameScene:
         self.total_pressed_letters = 0
         self.correct_pressed_letters = 0
         self.scores = None
-        
         self.background = pygame.transform.scale(pygame.image.load(BG_PATH), (WIDTH, HEIGHT))
         self.sucess_sound = pygame.mixer.Sound(SOUND_SUCCESS_PATH)
       
+        self.start_time = None
+        self.end_time = None
        
 
     def new_word(self):
        
         if len(self.word_list) > 0:
+            if self.start_time == None:
+                self.start_time = pygame.time.get_ticks()
             word_text = random.choice(self.word_list)
             word = {"id": pygame.time.get_ticks(), "text": word_text, "x": random.randint(50, WIDTH - 50), "y": 0,
                     "speed": LETTER_SPEED, "attacked": 0}
@@ -70,7 +74,7 @@ class GameScene:
                                     self.attacked_word_id = 0
                                     self.score += SCORE_INCREMENT
                                     pygame.mixer.Sound.play(self.sucess_sound)
-                                    self.new_word()
+                                    #self.new_word()
                                     break
     def reset_scene(self):
         self.score = 0
@@ -78,32 +82,34 @@ class GameScene:
         self.total_pressed_letters = 0
         self.correct_pressed_letters = 0
         self.scores = None
+        self.start_time = None
+        self.end_time = None
         self.done = False
         self.attacked_word_id = 0
         self.word_list = WORD_LIST.copy()
         self.word_sprites = pygame.sprite.Group()
 
 
-
-
     def update(self,delta_time):
         self.process_input()
         current_time = pygame.time.get_ticks()
 
-        if len(self.word_sprites) == 0 and (self.total_pressed_letters > 0 or self.missed > 0):
-                self.scores = Scores({"score": self.score, "pressed_letters": self.total_pressed_letters , "correct_letters": self.correct_pressed_letters})
-               
+        if len(self.word_sprites) == 0 and len(self.word_list) == 0 and (self.total_pressed_letters > 0 or self.missed > 0):
+                if self.end_time == None:
+                    self.end_time = pygame.time.get_ticks()
+                time_seconds = (self.end_time - self.start_time)/1000
+                self.scores = Scores({"score": self.score, "pressed_letters": self.total_pressed_letters , "correct_letters": self.correct_pressed_letters, "time_seconds": time_seconds})
                 self.next_scene = 'game_over'
                 self.done = 1
-
+                
         if current_time > self.next_word_time:
             self.new_word()
             self.next_word_time = current_time + NEW_WORD_DELAY
             
         for word in self.word_sprites:
             word.update(delta_time)
-            if word.projectile:
-                word.projectile.draw(self.screen)
+            if len(word.projectile_sprites) > 0:
+                word.projectile_sprites.draw(self.screen)
             if word.rect.y >= HEIGHT:
                 self.attacked_word_id = 0
                 self.word_sprites.remove(word)

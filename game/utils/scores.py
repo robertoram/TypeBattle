@@ -9,3 +9,6 @@ class Scores:
         self.score = data["score"]
         self.pressed_letters = data["pressed_letters"]
         self.correct_letters = data["correct_letters"]
+        self.time_seconds = data["time_seconds"]
+
+

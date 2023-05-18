@@ -12,9 +12,9 @@ class WordProjectile(pygame.sprite.Sprite):
 
     def update(self, delta_time):
         self.rect.y -= self.speed * delta_time
-       # if self.rect.y < 0:
-        #    self.off_screen = True  # Si el proyectil está fuera de la pantalla, seteamos off_screen en True
+        if self.rect.y <= 0:
+            self.off_screen = True  # Si el proyectil está fuera de la pantalla, seteamos off_screen en True
 
-    def draw(self, surface):
-        surface.blit(self.image, self.rect)
+    # def draw(self, surface):
+    #     surface.blit(self.image, self.rect)
     
