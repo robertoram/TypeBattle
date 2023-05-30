@@ -1,5 +1,6 @@
 import pygame
 import random
+
 import os
 from game.config import *
 from game.utils import *
@@ -20,6 +21,7 @@ class GameScene:
         self.attacked_word_id = 0
         self.score = 0
         self.missed = 0
+        self.missed_keys = 0
         self.font = pygame.font.Font(FONT_NAME, 28)
         self.game_over = False
         self.done = False
@@ -29,7 +31,8 @@ class GameScene:
         self.scores = None
         self.background = pygame.transform.scale(pygame.image.load(BG_PATH), (WIDTH, HEIGHT))
         self.sucess_sound = pygame.mixer.Sound(SOUND_SUCCESS_PATH)
-      
+        self.error_sound = pygame.mixer.Sound(SOUND_ERROR_PATH)
+        self.background_y = HEIGHT
         self.start_time = None
         self.end_time = None
        
@@ -76,6 +79,12 @@ class GameScene:
                                     pygame.mixer.Sound.play(self.sucess_sound)
                                     #self.new_word()
                                     break
+                                # condition to check if the word is incorrect( key pressed is not the first letter of the word)
+                            else:
+                                self.missed_keys += 1
+                                pygame.mixer.Sound.play(self.error_sound)
+                                
+
     def reset_scene(self):
         self.score = 0
         self.missed = 0
@@ -125,10 +134,19 @@ class GameScene:
                     self.new_word()
                     break
         
-            
+    # function to make self.background scroll vertically infinitely mooving up
+
+
+    def scroll(self):
+        rel_y = self.background_y % self.background.get_rect().height
+        self.screen.blit(self.background, (0, rel_y - self.background.get_rect().height))
+        if rel_y < HEIGHT:
+            self.screen.blit(self.background, (0, rel_y))
+        self.background_y -= 0.3        
 
     def draw(self):
-        self.screen.blit(self.background, (0, 0))
+        #self.screen.blit(self.background, (0, 0))
+        self.scroll()
         self.draw_text("Score: " + str(self.score), 28, WHITE, 10, 10)
         self.draw_text("Missed: " + str(self.missed), 28, WHITE, 10, 35)
         self.word_sprites.draw(self.screen)
@@ -142,3 +160,10 @@ class GameScene:
         
         text_rect.topleft = (x, y)
         self.screen.blit(text_surface, (x, y))
+    
+   
+
+    
+
+
+

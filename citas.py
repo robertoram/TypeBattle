@@ -11,3 +11,6 @@ r = requests.get('http://api.forismatic.com/api/1.0/', params=payload)
 data = json.loads(r.text)
 
 print(data['quoteText'])
+
+
+
