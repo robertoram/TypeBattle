@@ -6,7 +6,7 @@ from game.config import *
 from game.utils import *
 from game.sprites.word import *
 from game.utils.scores import Scores
-
+from quotes import get_quote_as_list
 
 
 class GameScene:
@@ -15,7 +15,7 @@ class GameScene:
         self.clock = pygame.time.Clock()
         self.all_sprites = pygame.sprite.Group()
         self.word_sprites = pygame.sprite.Group()
-        self.word_list = WORD_LIST
+        self.word_list = get_quote_as_list() 
         self.next_word_time = pygame.time.get_ticks() + NEW_WORD_DELAY
         self.attacked_word_time = 0
         self.attacked_word_id = 0
@@ -25,7 +25,7 @@ class GameScene:
         self.font = pygame.font.Font(FONT_NAME, 28)
         self.game_over = False
         self.done = False
-        self.word_list = WORD_LIST.copy()
+        #self.word_list = WORD_LIST.copy()
         self.total_pressed_letters = 0
         self.correct_pressed_letters = 0
         self.scores = None
@@ -95,8 +95,9 @@ class GameScene:
         self.end_time = None
         self.done = False
         self.attacked_word_id = 0
-        self.word_list = WORD_LIST.copy()
+        #self.word_list = WORD_LIST.copy()
         self.word_sprites = pygame.sprite.Group()
+        self.word_list = get_quote_as_list() 
 
 
     def update(self,delta_time):
