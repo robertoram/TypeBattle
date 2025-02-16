@@ -17,6 +17,7 @@ FONT_NAME = pygame.font.match_font('monospace')
 # Game settings
 TITLE = "TypeBattle"
 WORD_LIST = ['algoritmo', 'biblioteca', 'computadora', 'depuración', 'estructura', 'función', 'hardware', 'interfaz', 'java', 'kernel', 'lenguaje', 'memoria', 'navegador', 'objeto', 'programa', 'query', 'repositorio', 'sintaxis', 'tecnología', 'usuario', 'variable', 'web', 'XML', 'yield', 'zip', 'aplicación', 'bit', 'código', 'debug', 'ensamblador', 'fragmento', 'GNU', 'hardware', 'internet', 'JavaScript', 'kernel', 'lenguaje', 'multitarea', 'núcleo', 'optimización', 'procesador', 'query', 'red', 'servidor', 'teclado', 'unicode', 'vector', 'whitespace', 'XHTML']
+WORD_LIST_LENGHT  = 300
 LETTER_SPEED = 15
 LETTER_SPEED_INGREMENT = 1
 NEW_WORD_DELAY = 1000

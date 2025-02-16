@@ -1,6 +1,8 @@
 import json
 import requests
 import re
+from game.config import *
+
 # Fallback word list in case of API failure
 FALLBACK_WORD_LIST = [
     "algorithm", "library", "computer", "debugging",
@@ -10,7 +12,7 @@ def clean_word(word):
     """Removes punctuation and special characters from a word."""
     return re.sub(r'[^\w\s]', '', word)  # Removes everything except letters and numbers
 
-def get_quote_as_list(min_length=100):
+def get_quote_as_list(min_length=WORD_LIST_LENGHT ):
     """Fetches a random quote with a minimum length and returns it as a list of words.
     If the request fails, it returns a fallback list.
     """

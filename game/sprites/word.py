@@ -13,7 +13,7 @@ class Word(pygame.sprite.Sprite):
         self.y = word_data["y"]
         self.speed = word_data["speed"] if "speed" in word_data else LETTER_SPEED
         self.attacked = word_data["attacked"] if "attacked" in word_data else 0
-        self.font = pygame.font.Font(FONT_NAME, 30)
+        self.font = pygame.font.Font(FONT_NAME, 35 if self.attacked else 30)
         self.image = self.font.render(self.text, True, WHITE)
         self.rect = self.image.get_rect() #center=(self.x, self.y)
         self.x = random.randint(10+int(self.rect.width / 2), WIDTH -  int(self.rect.width / 2) - 10)#- (self.rect.width / 2) 
@@ -49,6 +49,7 @@ class Word(pygame.sprite.Sprite):
        
     def attack(self):
         self.attacked = 1
+        self.font = pygame.font.Font(FONT_NAME, 35)
         self.image = self.font.render(self.text, True, (255, 0, 0))
 
     # def render_word(self):
