@@ -1,12 +1,10 @@
 import pygame
 import random
-
-import os
 from game.config import *
 from game.utils import *
 from game.sprites.word import *
 from game.utils.scores import Scores
-
+from dotenv import load_dotenv
 
 
 class GameScene:
@@ -15,7 +13,7 @@ class GameScene:
         self.clock = pygame.time.Clock()
         self.all_sprites = pygame.sprite.Group()
         self.word_sprites = pygame.sprite.Group()
-        self.word_list = WORD_LIST
+        #self.word_list = WORD_LIST
         self.next_word_time = pygame.time.get_ticks() + NEW_WORD_DELAY
         self.attacked_word_time = 0
         self.attacked_word_id = 0
@@ -29,14 +27,14 @@ class GameScene:
         self.total_pressed_letters = 0
         self.correct_pressed_letters = 0
         self.scores = None
-        self.background = pygame.transform.scale(pygame.image.load(BG_PATH), (WIDTH, HEIGHT))
+        self.background = pygame.transform.scale(pygame.image.load(BG_PATH), (WIDTH, HEIGHT*2))
         self.sucess_sound = pygame.mixer.Sound(SOUND_SUCCESS_PATH)
         self.error_sound = pygame.mixer.Sound(SOUND_ERROR_PATH)
         self.background_y = HEIGHT
         self.start_time = None
         self.end_time = None
-       
 
+    
     def new_word(self):
        
         if len(self.word_list) > 0:
@@ -77,13 +75,16 @@ class GameScene:
                                     self.attacked_word_id = 0
                                     self.score += SCORE_INCREMENT
                                     pygame.mixer.Sound.play(self.sucess_sound)
-                                    #self.new_word()
-                                    break
+                                    return
+                                    #break
                                 # condition to check if the word is incorrect( key pressed is not the first letter of the word)
-                            else:
+                            elif (self.attacked_word_id > 0 and word.id == self.attacked_word_id):
                                 self.missed_keys += 1
                                 pygame.mixer.Sound.play(self.error_sound)
-                                
+                    if len(key)>0 and self.attacked_word_id == 0:
+                        self.missed_keys += 1
+                        pygame.mixer.Sound.play(self.error_sound)
+
 
     def reset_scene(self):
         self.score = 0

@@ -16,7 +16,70 @@ FONT_NAME = pygame.font.match_font('monospace')
 
 # Game settings
 TITLE = "TypeBattle"
-WORD_LIST = ['algoritmo', 'biblioteca', 'computadora', 'depuración', 'estructura', 'función', 'hardware', 'interfaz', 'java', 'kernel', 'lenguaje', 'memoria', 'navegador', 'objeto', 'programa', 'query', 'repositorio', 'sintaxis', 'tecnología', 'usuario', 'variable', 'web', 'XML', 'yield', 'zip', 'aplicación', 'bit', 'código', 'debug', 'ensamblador', 'fragmento', 'GNU', 'hardware', 'internet', 'JavaScript', 'kernel', 'lenguaje', 'multitarea', 'núcleo', 'optimización', 'procesador', 'query', 'red', 'servidor', 'teclado', 'unicode', 'vector', 'whitespace', 'XHTML']
+WORD_LIST =  [
+    'bed',
+    'generator',
+    'base',
+    'emerald',
+    'diamond',
+    'upgrade',
+    'bridge',
+    'wool',
+    'clay',
+    'iron',
+    'gold',
+    'armor',
+    'sword',
+    'axe',
+    'pickaxe',
+    'shears',
+    'bow',
+    'arrow',
+    'tnt',
+    'fireball',
+    'gapple',
+    'potion',
+    'team',
+    'trapped',
+    'obsidian',
+    'defender',
+    'attacker',
+    'rush',
+    'void',
+    'bridge',
+    'egg',
+    'ender',
+    'pearl',
+    'bedbug',
+    'sharpness',
+    'protection',
+    'haste',
+    'invisibility',
+    'bridge',
+    'builder',
+    'miner',
+    'fatigue',
+    'jumper',
+    'healer',
+    'demolitionist',
+    'archer',
+    'iron',
+    'golem',
+    'emerald',
+    'forge',
+    'diamond',
+    'forge',
+    'mana',
+    'spell',
+    'shop',
+    'upgrade',
+    'NPC',
+    'villager',
+    'shopkeeper',
+    'bedwars'
+]
+
+
 LETTER_SPEED = 15
 LETTER_SPEED_INGREMENT = 1
 NEW_WORD_DELAY = 1000
@@ -37,4 +100,4 @@ FONT_SIZE = 32
 SOUND_SUCCESS_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'success_bell.wav')
 SOUND_ERROR_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'error_bell.wav')
 #IMAGES
-BG_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'images', 'menu_bg.jpg')
+BG_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'images', 'background_scroll.jpg')

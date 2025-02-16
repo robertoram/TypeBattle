@@ -3,6 +3,7 @@ import os
 from game.config import *
 from game.sprites import *
 
+
 class MenuScene:
     def __init__(self, screen):
         self.screen = screen
@@ -28,6 +29,7 @@ class MenuScene:
         self.quit_rect = self.quit_text.get_rect(center=(WIDTH/2, HEIGHT*2/3))
 
         self.done = False
+  
 
     def process_input(self):
         for event in pygame.event.get():
