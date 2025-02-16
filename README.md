@@ -9,6 +9,8 @@ Para empezar a jugar Type Attack, sigue estos pasos:
 1. Clona este repositorio.
 2. Instala Python 3.
 3. Instala Pygame ejecutando `pip install pygame`.
+   (Opcional): ```python -m venv venv
+               source venv/bin/activate```
 4. Ejecuta el juego con `python main.py`.
 
 ## Cómo Jugar
