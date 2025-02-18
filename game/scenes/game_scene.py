@@ -35,7 +35,7 @@ class GameScene:
         self.background_y = HEIGHT
         self.start_time = None
         self.end_time = None
-       
+        self.key_log = "" 
 
     def new_word(self):
        
@@ -60,6 +60,7 @@ class GameScene:
                 if event.unicode.isalpha():
                     self.total_pressed_letters += 1
                     key = event.unicode.lower()
+                    self.key_log += " " + key
                     if event.mod & pygame.KMOD_SHIFT:
                         key = event.unicode.upper()
                     
@@ -76,6 +77,7 @@ class GameScene:
                                     self.word_sprites.remove(word)
                                     self.attacked_word_id = 0
                                     self.score += SCORE_INCREMENT
+                                    self.key_log += "| "
                                     pygame.mixer.Sound.play(self.sucess_sound)
                                     #self.new_word()
                                     break
@@ -150,6 +152,13 @@ class GameScene:
         self.scroll()
         self.draw_text("Score: " + str(self.score), 28, WHITE, 10, 10)
         self.draw_text("Missed: " + str(self.missed), 28, WHITE, 10, 35)
+
+        log_text = "Log: " + str(self.key_log)
+        text_width, text_height = self.draw_text(log_text, 25, GRAY, 10, HEIGHT - 30)
+        if text_width > WIDTH - 20:  
+            self.key_log = self.key_log[2:]
+
+        self.draw_text("Log: " + str(self.key_log), 25, GRAY, 10, HEIGHT - 30)
         self.word_sprites.draw(self.screen)
             
         pygame.display.flip()
@@ -162,7 +171,7 @@ class GameScene:
         text_rect.topleft = (x, y)
         self.screen.blit(text_surface, (x, y))
     
-   
+        return text_surface.get_size() 
 
     
 
