@@ -7,15 +7,15 @@ class MenuScene:
     def __init__(self, screen):
         self.screen = screen
         #self.background = pygame.image.load("assets/images/menu_bg.jpg").convert()
-        bg_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'images', 'menu_bg.jpg')
+        bg_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'images', 'universescroll.webp')
         
-        self.background = pygame.transform.scale(pygame.image.load(bg_path), (WIDTH, HEIGHT))
+        self.background = pygame.transform.scale(pygame.image.load(bg_path), (WIDTH, HEIGHT)) 
 
         self.title_font = pygame.font.Font(FONT_NAME, 64)
-        self.title_text = self.title_font.render("TypeBattle", True, WHITE)
+        self.title_text = self.title_font.render("TypeBattle", True, GREEN)
         self.title_rect = self.title_text.get_rect(center=(WIDTH/2, HEIGHT/5))
 
-        self.start_font = pygame.font.Font(FONT_NAME, 32)
+        self.start_font = pygame.font.Font(FONT_NAME, 20)
         self.start_text = self.start_font.render("Press SPACE to start/continue", True, WHITE)
         self.start_rect = self.start_text.get_rect(center=(WIDTH/2, HEIGHT/3))
 
@@ -49,6 +49,12 @@ class MenuScene:
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
+        overlay = pygame.Surface((WIDTH, HEIGHT)) 
+        overlay.fill((0, 0, 0)) 
+        overlay.set_alpha(150) 
+
+        self.screen.blit(overlay, (0, 0))  # Aplica el overlay
+
         self.screen.blit(self.title_text, self.title_rect)
         self.screen.blit(self.start_text, self.start_rect)
         self.screen.blit(self.restart_text, self.restart_rect)

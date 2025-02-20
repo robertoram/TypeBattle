@@ -11,9 +11,10 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0,255,0)
-GRAY = (100, 100, 100)
+GRAY = (150, 150, 150)
+PINK = (255, 1, 203)
 # Fonts
-FONT_NAME = pygame.font.match_font('monospace')
+FONT_NAME = 'game/assets/fonts/PressStart2p.ttf'
 
 # Game settings
 TITLE = "TypeBattle"
@@ -39,4 +40,5 @@ FONT_SIZE = 32
 SOUND_SUCCESS_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'success_bell.wav')
 SOUND_ERROR_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'error_bell.wav')
 #IMAGES
-BG_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'images', 'menu_bg.jpg')
+BG_PATH = os.path.join(os.path.dirname(__file__), 'assets', 'images', 'universescroll.webp')
+

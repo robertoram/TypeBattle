@@ -22,7 +22,7 @@ class GameScene:
         self.score = 0
         self.missed = 0
         self.missed_keys = 0
-        self.font = pygame.font.Font(FONT_NAME, 28)
+        self.font = pygame.font.Font(FONT_NAME, 15)
         self.game_over = False
         self.done = False
         #self.word_list = WORD_LIST.copy()
@@ -60,13 +60,13 @@ class GameScene:
                 if event.unicode.isalpha():
                     self.total_pressed_letters += 1
                     key = event.unicode.lower()
-                    self.key_log += " " + key
                     if event.mod & pygame.KMOD_SHIFT:
                         key = event.unicode.upper()
-                    
+                    matchcount = 0 
                     for word in self.word_sprites:
                         if ((self.attacked_word_id > 0 and word.id == self.attacked_word_id) or self.attacked_word_id == 0) and len(word.text) > 0:
                             if key == word.text[0]:
+                                matchcount += 1
                                 if len(word.text) >= 1 and len(word.text) > 0:
                                     word.text = word.text[1:]
                                     self.attacked_word_id = word.id
@@ -77,14 +77,15 @@ class GameScene:
                                     self.word_sprites.remove(word)
                                     self.attacked_word_id = 0
                                     self.score += SCORE_INCREMENT
-                                    self.key_log += "| "
+                                    #self.key_log += " | "
                                     pygame.mixer.Sound.play(self.sucess_sound)
                                     #self.new_word()
                                     break
                                 # condition to check if the word is incorrect( key pressed is not the first letter of the word)
-                            else:
-                                self.missed_keys += 1
-                                pygame.mixer.Sound.play(self.error_sound)
+                    if (matchcount == 0):
+                        self.missed_keys += 1
+                        self.key_log += key + " "
+                        pygame.mixer.Sound.play(self.error_sound)
                                 
 
     def reset_scene(self):
@@ -100,7 +101,7 @@ class GameScene:
         #self.word_list = WORD_LIST.copy()
         self.word_sprites = pygame.sprite.Group()
         self.word_list = get_quote_as_list() 
-
+        self.key_log = ""
 
     def update(self,delta_time):
         self.process_input()
@@ -123,7 +124,8 @@ class GameScene:
             if len(word.projectile_sprites) > 0:
                 word.projectile_sprites.draw(self.screen)
             if word.rect.y >= HEIGHT:
-                self.attacked_word_id = 0
+                if word.attacked == 1:
+                    self.attacked_word_id = 0
                 self.word_sprites.remove(word)
                 self.missed += 1
                 #self.new_word()
@@ -145,24 +147,29 @@ class GameScene:
         self.screen.blit(self.background, (0, rel_y - self.background.get_rect().height))
         if rel_y < HEIGHT:
             self.screen.blit(self.background, (0, rel_y))
-        self.background_y -= 0.3        
+        self.background_y += 0.1        
 
+        overlay = pygame.Surface((WIDTH, HEIGHT))  # Crear superficie del tamaño de la pantalla
+        overlay.fill((0, 0, 0))  # Color negro
+        overlay.set_alpha(150)  # Ajusta la transparencia (0-255)
+
+        self.screen.blit(overlay, (0, 0))  # Aplica el overlay
     def draw(self):
         #self.screen.blit(self.background, (0, 0))
         self.scroll()
-        self.draw_text("Score: " + str(self.score), 28, WHITE, 10, 10)
-        self.draw_text("Missed: " + str(self.missed), 28, WHITE, 10, 35)
+        self.draw_text("Score: " + str(self.score), 10, PINK, 10, 10)
+        self.draw_text("Missed: " + str(self.missed), 10, PINK, 180, 10)
 
         log_text = "Log: " + str(self.key_log)
-        text_width, text_height = self.draw_text(log_text, 25, GRAY, 10, HEIGHT - 30)
+        text_width, text_height = self.draw_text(log_text, 12, GRAY, 10, HEIGHT - 30)
         if text_width > WIDTH - 20:  
-            self.key_log = self.key_log[2:]
-
-        self.draw_text("Log: " + str(self.key_log), 25, GRAY, 10, HEIGHT - 30)
+            self.key_log = self.key_log[5:]
+        self.draw_text("Log: " + str(self.key_log), 12, GRAY, 10, HEIGHT - 30)
+        
         self.word_sprites.draw(self.screen)
             
         pygame.display.flip()
-
+    
     def draw_text(self, text, size, color, x, y):
         font = pygame.font.Font(FONT_NAME, size)
         text_surface = font.render(text, True, color)

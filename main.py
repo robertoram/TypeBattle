@@ -9,7 +9,7 @@ pygame.init()
 
 # Inicialización del Mixer
 pygame.mixer.init()
-
+#
 
 # Configuración de la ventana del juego
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
